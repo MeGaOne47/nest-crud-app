@@ -1,8 +1,8 @@
 version: '3.9'
 services:
-  nestapp:
-    container_name: nestapp
-    image: francescoxx/nestapp:1.0.0
+  nestapp_postgres:
+    container_name: nestapp_postgres
+    image: nguyentanhung/nestapp:1.0.0
     build: .
     ports:
       - '8000:8000'
@@ -11,19 +11,19 @@ services:
       - PG_USER=postgres
       - PG_PASSWORD=postgres
       - PG_DB=postgres
-      - PG_PORT=5432 # Sử dụng cổng 5433 cho PostgreSQL
+      - PG_PORT=5432
       - PG_HOST=db
     depends_on:
       - db
   db:
-    container_name: db
+    container_name: db_postgres
     image: postgres:12
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
     ports:
-      - '5432:5432' # Chuyển cổng này từ 5432 sang 5433
+      - '5432:5432' 
     volumes:
       - pgdata:/var/lib/postgresql/data
 volumes:

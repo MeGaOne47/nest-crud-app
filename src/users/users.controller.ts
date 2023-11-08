@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Controller,
@@ -11,6 +12,7 @@ import {
 } from '@nestjs/common';
 import { UserService } from './users.service';
 import { User } from './user.entity';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -40,10 +42,16 @@ export class UsersController {
   }
 
   //update user
+  // @Put(':id')
+  // async update(@Param('id') id: number, @Body() user: User): Promise<any> {
+  //   return this.usersService.update(id, user);
+  // }
+
   @Put(':id')
-  async update(@Param('id') id: number, @Body() user: User): Promise<any> {
-    return this.usersService.update(id, user);
-  }
+  async update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
+    return this.usersService.update(id, updateUserDto);
+}
+
 
   //delete user
   @Delete(':id')
