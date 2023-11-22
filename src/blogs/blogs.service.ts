@@ -7,8 +7,8 @@ import { Blog } from './blog.entity'; // Thay thế User bằng Blog
 export class BlogsService {
   // Thay thế UserService bằng BlogsService
   constructor(
-    @InjectRepository(Blog) // Thay thế User bằng Blog
-    private blogRepository: Repository<Blog>, // Thay thế userRepository bằng blogRepository
+    @InjectRepository(Blog)
+    private blogRepository: Repository<Blog>,
   ) {}
 
   async findAll(): Promise<Blog[]> {

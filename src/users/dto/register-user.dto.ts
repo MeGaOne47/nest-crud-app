@@ -1,8 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { IsEmail, IsNotEmpty, IsString, MaxLength, MinLength } from "class-validator";
-import { Role } from "src/role/enum/role.enum";
 
-export class CreateUserDto {
+export class RegisterUserDto {
   @IsEmail()
   @IsNotEmpty()
   email: string;
@@ -17,11 +16,5 @@ export class CreateUserDto {
   @MinLength(8)
   @MaxLength(60)
   password: string;
-  
-  @IsNotEmpty()
-  roles: Role[];
-
-  @IsNotEmpty()
-  refreshToken: string;
 
 }

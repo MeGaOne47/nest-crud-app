@@ -8,25 +8,56 @@ import { ConfigModule } from '@nestjs/config';
 import { BlogsModule } from './blogs/blogs.module';
 import { AuthModule } from './auth/auth.module';
 import { PassportModule } from '@nestjs/passport';
+import { DonorModule } from './Donors/donor.module';
+import { BloodRecipientModule } from './Blood Recipients/blood-recipient.module';
+import { ConnectionModule } from './Connection/connection.module';
+import { DonationHistoryModule } from './Donation History/donation-history.module';
+import { AppointmentModule } from './Appointment/appointment.module';
+// import { RolesGuard } from './auth/guard/role.guard';
+// import { APP_GUARD } from '@nestjs/core';
+
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    UsersModule,
+    // TypeOrmModule.forRoot({
+    //   type: process.env.DB_TYPE as any,
+    //   host: process.env.PG_HOST,
+    //   port: parseInt(process.env.PG_PORT),
+    //   username: process.env.PG_USER,
+    //   password: process.env.PG_PASSWORD,
+    //   database: process.env.PG_DB,
+    //   entities: [__dirname + '/**/*.entity{.ts,.js}'],
+    //   synchronize: true,
+    // }),
     TypeOrmModule.forRoot({
-      type: process.env.DB_TYPE as any,
-      host: process.env.PG_HOST,
-      port: parseInt(process.env.PG_PORT),
-      username: process.env.PG_USER,
-      password: process.env.PG_PASSWORD,
-      database: process.env.PG_DB,
+      type: 'postgres',
+      host: 'localhost',
+      port: 5433,
+      username: 'postgres',
+      password: 'postgres',
+      database: 'postgres',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
+      autoLoadEntities: true,
     }),
     BlogsModule,
+    UsersModule,
+    DonorModule,
+    BloodRecipientModule,
+    ConnectionModule,
+    DonationHistoryModule,
+    AppointmentModule,
     AuthModule,
     PassportModule.register({ session: true }),
+  
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: RolesGuard,
+    // },
+  ]
 })
 export class AppModule {}

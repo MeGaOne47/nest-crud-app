@@ -10,6 +10,7 @@ import { secretKey } from "./constants/jwt-constants";
 import { PassportModule } from "@nestjs/passport";
 import { JwtStrategy } from "./strategy/jwt.strategy";
 import { SessionSerializer } from "./session/session.serializer";
+// import { RefreshTokenStrategy } from "./strategy/refreshToken.strategy";
 
 @Module({
   imports: [
@@ -21,6 +22,12 @@ import { SessionSerializer } from "./session/session.serializer";
       })
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy, SessionSerializer]
+  providers: [
+    AuthService, 
+    LocalStrategy, 
+    JwtStrategy, 
+    // RefreshTokenStrategy,
+    SessionSerializer,
+  ]
 })
 export class AuthModule {}

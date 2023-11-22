@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Role } from 'src/role/enum/role.enum';
 
 @Injectable()
 export class UserService {
@@ -22,16 +23,10 @@ export class UserService {
   }
 
   async create(user: Partial<User>): Promise<User> {
-    const newUser = this.userRepository.create(user);
+    const newUser = this.userRepository.create({ roles: [Role.User], ...user });
+    
     return this.userRepository.save(newUser);
   }
-
-  // async update(id: number, user: Partial<User>): Promise<User | null> {
-  //   const existingUser = await this.userRepository.findOne({ where: { id } });
-
-  //   // Lưu thông tin cập nhật
-  //   return this.userRepository.save(existingUser);
-  // }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     const user = await this.userRepository.findOne({ where: { id } });
@@ -47,16 +42,18 @@ export class UserService {
     if (updateUserDto.username) {
       user.username = updateUserDto.username;
     }
+
+    if (updateUserDto.roles) {
+      user.roles = updateUserDto.roles;
+    }
   
     return this.userRepository.save(user);
   }
-  
 
   async delete(id: number): Promise<void> {
     await this.userRepository.delete(id);
   }
 
-  // Lấy trường 'id' của một bản ghi
   async getUserSTT(id: number): Promise<number> {
     const user = await this.userRepository.findOne({ where: { id } });
     return user ? user.id : null;

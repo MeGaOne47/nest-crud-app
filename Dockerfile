@@ -1,4 +1,20 @@
-FROM node:16
+# FROM node:20
+
+# WORKDIR /app
+
+# COPY package*.json ./
+
+# RUN npm install --only=development
+
+# COPY . .
+
+# RUN npm run build
+
+# EXPOSE 8000
+
+# CMD ["npm", "run", "start:dev"]
+
+FROM node:18
 
 WORKDIR /app
 
@@ -10,6 +26,4 @@ COPY . .
 
 RUN npm run build
 
-EXPOSE 8000
-
-CMD ["npm", "run", "start:prod"]
+CMD [ "npm", "run", "start:dev" ]
