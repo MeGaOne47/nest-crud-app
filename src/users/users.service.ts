@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
@@ -57,5 +57,16 @@ export class UserService {
   async getUserSTT(id: number): Promise<number> {
     const user = await this.userRepository.findOne({ where: { id } });
     return user ? user.id : null;
+  }
+
+  async updateUserProfileImage(id: number, imagePath: string): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { id } });
+
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
+
+    user.profileImage = imagePath;
+    return this.userRepository.save(user);
   }
 }

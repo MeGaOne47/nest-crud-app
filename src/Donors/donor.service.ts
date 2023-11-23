@@ -77,4 +77,13 @@ export class DonorService {
     return await this.donationHistoryRepository.save(donationHistory);
   }
 
+  async findCompatibleDonors(bloodType: string, rhFactor: string): Promise<Donor[]> {
+    return this.donorRepository.find({
+      where: {
+        bloodType,
+        rhFactor,
+      },
+    });
+  }
+
 }

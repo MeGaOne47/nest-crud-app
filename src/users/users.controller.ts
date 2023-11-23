@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Controller, Get, Post, Body, Put, Param, Delete, NotFoundException, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, NotFoundException, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { UserService } from './users.service';
 import { User } from './user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -8,6 +8,9 @@ import { Roles } from 'src/auth/decorator/roles.decorator';
 import { Role } from 'src/role/enum/role.enum';
 import { JwtGuard } from 'src/auth/guard/jwt.guard';
 import { RolesGuard } from 'src/auth/guard/role.guard';
+import { diskStorage } from 'multer';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { extname } from 'path';
 
 @Controller('users')
 export class UsersController {
@@ -57,5 +60,20 @@ export class UsersController {
       throw new NotFoundException('User does not exist!');
     }
     return this.usersService.delete(id);
+  }
+
+  @Post(':id/profile-image')
+  @UseInterceptors(FileInterceptor('file', {
+    storage: diskStorage({
+      destination: './uploads',
+      filename: (req, file, callback) => {
+        const randomName = Array(32).fill(null).map(() => (Math.round(Math.random() * 16)).toString(16)).join('');
+        return callback(null, `${randomName}${extname(file.originalname)}`);
+      },
+    }),
+  }))
+  async uploadProfileImage(@Param('id') id: number, @UploadedFile() file) {
+    const imagePath = file.path; // Đường dẫn lưu trữ hình ảnh
+    return this.usersService.updateUserProfileImage(id, imagePath);
   }
 }
