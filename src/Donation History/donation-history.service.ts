@@ -34,4 +34,9 @@ export class DonationHistoryService {
     await this.donationHistoryRepository.delete(id);
   }
 
+  // Thêm phương thức để lấy lịch sử hiến máu theo donor_id
+  async findByDonorId(donorId: number): Promise<DonationHistory[]> {
+    return await this.donationHistoryRepository.find({ where: { donor: { id: donorId } } });
+  }
+
 }

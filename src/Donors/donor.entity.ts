@@ -38,7 +38,7 @@ export class Donor {
   @OneToMany(() => DonationHistory, donationHistory => donationHistory.donor)
   donationHistory: DonationHistory[];
 
-  @OneToMany(() => Appointment, appointment => appointment.donor)
+  @OneToMany(() => Appointment, appointment => appointment.donor, { cascade: true })
   appointments: Appointment[];
 
   @OneToMany(() => Connection, connection => connection.donor)

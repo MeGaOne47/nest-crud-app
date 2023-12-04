@@ -12,7 +12,7 @@ async function bootstrap() {
 
   app.use(
     session({
-      secret: 'fuck-dog',
+      secret: 'nguyentanhung2402',
       resave: false,
       saveUninitialized: false,
       cookie: { maxAge: 3600000 },

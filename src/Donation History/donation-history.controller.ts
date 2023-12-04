@@ -37,4 +37,10 @@ export class DonationHistoryController {
     return this.donationHistoryService.remove(+id);
   }
 
+  // Thêm endpoint để lấy lịch sử hiến máu theo donor_id
+  @Get('by-donor/:donorId')
+  findByDonorId(@Param('donorId') donorId: string): Promise<DonationHistory[]> {
+    return this.donationHistoryService.findByDonorId(+donorId);
+  }
+
 }

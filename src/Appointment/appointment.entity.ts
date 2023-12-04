@@ -10,10 +10,10 @@ export class Appointment {
   @ManyToOne(() => Donor, donor => donor.appointments)
   @JoinColumn({ name: 'donor_id' })
   donor: Donor;
-
+  
   @Column()
   appointmentDate: Date;
-
+  
   @Column()
   appointmentTime: string;
 
