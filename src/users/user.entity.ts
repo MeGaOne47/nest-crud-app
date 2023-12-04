@@ -24,8 +24,8 @@ export class User {
   @Column('simple-array', { nullable: true })
   roles: Role[];
 
-  // @Column({unique: true})
-  // refreshToken: string;
+  @Column({ nullable: true })
+  refreshToken: string;
 
   @OneToOne(() => Donor, donor => donor.user, { cascade: true })
   @JoinColumn({ name: 'donor_id' })
@@ -34,5 +34,14 @@ export class User {
   // @OneToOne(() => BloodRecipient, { cascade: true })
   // @JoinColumn({ name: 'blood_recipient_id' })
   // bloodRecipient: BloodRecipient;
+
+  @Column({ nullable: true }) 
+  resetToken: string;
+
+  @Column({ default: 0 })
+  loginAttempts: number;
+
+  @Column({ default: false }) // Tài khoản có bị khóa hay không
+  isLocked: boolean;
 
 }

@@ -69,4 +69,5 @@ export class UserService {
     user.profileImage = imagePath;
     return this.userRepository.save(user);
   }
+
 }

@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Post, UseGuards, Request, Get } from "@nestjs/common";
+import { Body, Controller, Post, UseGuards, Request, Get, Patch, Param, HttpCode, Req} from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { CreateUserDto } from "src/users/dto/create-user.dto";
 import { LocalGuard } from "./guard/local.guard";
@@ -10,6 +10,7 @@ import { Roles } from "./decorator/roles.decorator";
 import { Role } from "src/role/enum/role.enum";
 import { RolesGuard } from "./guard/role.guard";
 import { RegisterUserDto } from "src/users/dto/register-user.dto";
+import { LogoutDto } from "src/users/dto/loguot-user.dto";
 
 
 @Controller('auth')
@@ -43,5 +44,31 @@ export class AuthController {
   @Get('admin')
   onlyAdmin(@Request() req) {
     return req.user;
+  }
+
+  @Post('refresh-token')
+  // @UseGuards(JwtGuard)
+  async refreshToken(@Body('refreshToken') refreshToken: string) {
+    return this.authService.refreshToken(refreshToken);
+  }
+
+  @Post('forgot-password')
+  async forgotPassword(@Body() body: { email: string }) {
+    await this.authService.sendPasswordResetEmail(body.email);
+  }
+
+  @Post('reset-password')
+  async resetPassword(@Body() body: { email: string; otp: string; newPassword: string }) {
+    const { email, otp, newPassword } = body;
+    await this.authService.resetPassword(email, otp, newPassword);
+  }
+
+  @UseGuards(JwtGuard)
+  @Post('logout')
+  // @HttpCode(204)
+  async logout(@Req() req, @Body() logoutDto: LogoutDto): Promise<{ message: string }> {
+    const userId = req.user.id;
+    await this.authService.logout(userId, logoutDto.refreshToken);
+    return { message: 'Logout successful' };
   }
 }
