@@ -6,12 +6,25 @@ import { Donor } from './donor.entity';
 import { JwtGuard } from 'src/auth/guard/jwt.guard';
 import { DisplayDonorDto } from './DTO/display-donor.dto';
 import { DonationHistory } from 'src/Donation History/donation-history.entity';
+import { ApiTags } from '@nestjs/swagger';
+import { Roles } from 'src/auth/decorator/roles.decorator';
+import { Role } from 'src/role/enum/role.enum';
+import { RolesGuard } from 'src/auth/guard/role.guard';
+// import { LocalGuard } from 'src/auth/guard/local.guard';
+// import { Roles } from 'src/auth/decorator/roles.decorator';
+// import { Role } from 'src/role/enum/role.enum';
+// import { RolesGuard } from 'src/auth/guard/role.guard';
 
+// @Roles(Role.Admin, Role.User)
+// @UseGuards(RolesGuard)
+@ApiTags('donors')
 @Controller('donors')
 export class DonorController {
   constructor(private readonly donorService: DonorService) {}
 
   @Get()
+  @Roles(Role.Admin)
+  @UseGuards(JwtGuard, RolesGuard)
   findAll(): Promise<Donor[]> {
     return this.donorService.findAll();
   }

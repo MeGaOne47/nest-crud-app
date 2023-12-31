@@ -5,7 +5,14 @@ import { BloodRecipientService } from './blood-recipient.service';
 import { BloodRecipient } from './blood-recipient.entity';
 import { BloodRecipientImportService } from './blood-recipient-import.service';
 import { FileInterceptor } from '@nestjs/platform-express';
+// import { Roles } from 'src/auth/decorator/roles.decorator';
+// import { Role } from 'src/role/enum/role.enum';
+// import { RolesGuard } from 'src/auth/guard/role.guard';
+import { ApiTags } from '@nestjs/swagger';
+// import { LocalGuard } from 'src/auth/guard/local.guard';
+// import { JwtGuard } from 'src/auth/guard/jwt.guard';
 
+@ApiTags('blood-recipients')
 @Controller('blood-recipients')
 export class BloodRecipientController {
   constructor(
@@ -13,12 +20,25 @@ export class BloodRecipientController {
     private readonly bloodRecipientImportService: BloodRecipientImportService,
   ) {}
 
+  // @Get()
+  // findAll(): Promise<BloodRecipient[]> {
+  //   return this.bloodRecipientService.findAll();
+  // }
+
   @Get()
-  findAll(): Promise<BloodRecipient[]> {
-    return this.bloodRecipientService.findAll();
+  // @Roles(Role.Admin)
+  // @UseGuards(JwtGuard, RolesGuard)
+  findAll(
+    @Query('page', ParseIntPipe) page: number = 1,
+    @Query('pageSize', ParseIntPipe) pageSize: number = 10,
+  ): Promise<BloodRecipient[]> {
+    return this.bloodRecipientService.findAll(page, pageSize);
   }
 
+
   @Get(':id')
+  // @Roles(Role.Admin)
+  // @UseGuards(LocalGuard, RolesGuard)
   findOne(@Param('id', ParseIntPipe) id: number, @Query('urgent') urgent: string): Promise<BloodRecipient> {
     return this.bloodRecipientService.findOne(id, urgent);
   }

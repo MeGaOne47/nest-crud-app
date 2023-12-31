@@ -8,6 +8,7 @@ import * as nodemailer from 'nodemailer';
 
 @Injectable()
 export class AppointmentService {
+  [x: string]: any;
   constructor(
     @InjectRepository(Appointment)
     private readonly appointmentRepository: Repository<Appointment>,
@@ -16,6 +17,7 @@ export class AppointmentService {
   async create(appointment: Appointment): Promise<Appointment> {
     const createdAppointment = await this.appointmentRepository.save(appointment);
     this.sendReminderEmail(createdAppointment); // Gửi email nhắc nhở ngay sau khi tạo lịch hẹn
+    
     return createdAppointment;
   }
 
@@ -62,6 +64,7 @@ export class AppointmentService {
       if (appointmentWithDetails && appointmentWithDetails.donor) {
         const recipientEmails = [appointmentWithDetails.donor.user.email];
       // Tùy chỉnh nội dung thư gửi
+      const mapLink = 'https://www.google.com/maps/place/HUTECH+-+%C4%90%E1%BA%A1i+h%E1%BB%8Dc+C%C3%B4ng+ngh%E1%BB%87+TP.HCM+(Thu+Duc+Campus)/@10.8546625,106.7811778,16z/data=!4m6!3m5!1s0x3175276e7ea103df:0xb6cf10bb7d719327!8m2!3d10.8555669!4d106.7851098!16s%2Fg%2F11c6tvvgch?entry=ttu';
       const mailOptions = {
         from: 'nguyentanhung9a1@gmail.com',
         to: recipientEmails.join(', '),
@@ -128,6 +131,9 @@ export class AppointmentService {
                   Hãy đến đúng giờ và chuẩn bị tâm thế tích cực cho hành động lành mạnh của mình!
                 </p>
               </div>
+              <p>
+                Để xem địa điểm trên bản đồ, vui lòng nhấp vào <a href="${mapLink}" target="_blank">đây</a>.
+              </p>
               <p class="thank-you">Chân thành cảm ơn,</p>
               <p class="thank-you">Ứng dụng Quản lý Hiến Máu</p>
             </div>
@@ -144,6 +150,6 @@ export class AppointmentService {
         }
       });
     }
+  }
 
-}
 }

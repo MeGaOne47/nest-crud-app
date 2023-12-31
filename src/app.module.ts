@@ -13,6 +13,10 @@ import { BloodRecipientModule } from './Blood Recipients/blood-recipient.module'
 import { ConnectionModule } from './Connection/connection.module';
 import { DonationHistoryModule } from './Donation History/donation-history.module';
 import { AppointmentModule } from './Appointment/appointment.module';
+import { RoomModule } from './Room/room.module';
+import { DonationModule } from './Donation/donation.module';
+// import { RolesGuard } from './auth/guard/role.guard';
+// import { APP_GUARD } from '@nestjs/core';
 // import { RolesGuard } from './auth/guard/role.guard';
 // import { APP_GUARD } from '@nestjs/core';
 
@@ -40,6 +44,7 @@ import { AppointmentModule } from './Appointment/appointment.module';
       synchronize: true,
       autoLoadEntities: true,
     }),
+    
     BlogsModule,
     UsersModule,
     DonorModule,
@@ -49,7 +54,8 @@ import { AppointmentModule } from './Appointment/appointment.module';
     AppointmentModule,
     AuthModule,
     PassportModule.register({ session: true }),
-  
+    RoomModule,
+    DonationModule, 
   ],
   controllers: [AppController],
   providers: [

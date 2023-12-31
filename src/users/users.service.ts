@@ -46,6 +46,10 @@ export class UserService {
     if (updateUserDto.roles) {
       user.roles = updateUserDto.roles;
     }
+
+    if (updateUserDto.isLocked !== undefined) {
+      user.isLocked = updateUserDto.isLocked;
+    }
   
     return this.userRepository.save(user);
   }

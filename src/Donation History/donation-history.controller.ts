@@ -3,9 +3,17 @@
 import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common';
 import { DonationHistoryService } from './donation-history.service';
 import { DonationHistory } from './donation-history.entity';
+// import { Roles } from 'src/auth/decorator/roles.decorator';
+// import { Role } from 'src/role/enum/role.enum';
+// import { JwtGuard } from 'src/auth/guard/jwt.guard';
+// import { RolesGuard } from 'src/auth/guard/role.guard';
+import { ApiTags } from '@nestjs/swagger';
 // import { AppointmentService } from 'src/Appointment/appointment.service';
 // import { DonorService } from 'src/Donors/donor.service';
 
+// @Roles(Role.Admin)
+// @UseGuards(JwtGuard, RolesGuard)
+@ApiTags('donation-history')
 @Controller('donation-history')
 export class DonationHistoryController {
   constructor(

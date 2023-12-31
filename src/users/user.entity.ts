@@ -38,6 +38,9 @@ export class User {
   @Column({ nullable: true }) 
   resetToken: string;
 
+  @Column({ type: 'timestamp', nullable: true })
+  otpExpiration: Date;
+
   @Column({ default: 0 })
   loginAttempts: number;
 

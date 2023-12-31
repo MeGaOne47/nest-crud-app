@@ -6,14 +6,18 @@ export class UpdateUserDto {
   @IsEmail()
   @IsNotEmpty()
   @IsOptional()
-  email: string;
+  email?: string;
 
   @IsString()
   @MinLength(3)
   @MaxLength(30)
   @IsOptional()
-  username: string;
+  username?: string;
 
   @IsNotEmpty()
-  roles: Role[];
+  roles?: Role[];
+
+  @IsNotEmpty()
+  @IsOptional()
+  isLocked?: boolean;
 }

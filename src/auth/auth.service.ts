@@ -101,10 +101,12 @@ export class AuthService {
       email: user.email, 
       username: user.username,
       roles: user.roles,
-      donor: user.donor.id,
+      donor: user.donor,
     };
-
+    console.log("payload1:",payload)
     const accessToken = this.jwtService.sign(payload);
+    console.log("accessToken: ",accessToken)
+
     const refreshToken = randomBytes(32).toString('hex');
 
     // Lưu refreshToken vào cơ sở dữ liệu hoặc nơi lưu trữ khác
@@ -124,8 +126,12 @@ export class AuthService {
   }
 
   async refreshToken(refreshToken: string) {
-    const user = await this.userRepository.findOne({ where: { refreshToken } });
-  
+    const user = await this.userRepository
+    .createQueryBuilder('user')
+    .where('user.refreshToken = :refreshToken', { refreshToken })
+    .leftJoinAndSelect('user.donor', 'donor')
+    .getOne();
+    console.log("user:",user)
     if (!user) {
       // refreshToken không hợp lệ
       return null;
@@ -133,15 +139,15 @@ export class AuthService {
   
     // Tạo access token mới
     const payload = {
-      sub: user.id,
-      email: user.email,
+      sub: user.id, 
+      email: user.email, 
       username: user.username,
       roles: user.roles,
-      donor: user.donor.id,
+      donor: user.donor,
     };
-  
+    console.log("payload2:",payload)
     const newAccessToken = this.jwtService.sign(payload);
-  
+    console.log("newAccessToken:",newAccessToken)
     return {
       access_token: newAccessToken,
     };
@@ -159,8 +165,11 @@ export class AuthService {
     }
 
     const otp = this.generateOTP();
+    const expirationTime = new Date();
+    expirationTime.setMinutes(expirationTime.getMinutes() + 15); // Thêm 15 phút
     // Lưu OTP vào user (có thể lưu vào cơ sở dữ liệu hoặc bất kỳ cách nào khác phù hợp)
     user.resetToken = otp;
+    user.otpExpiration = expirationTime;
     await this.userRepository.save(user);
 
     // Gửi email chứa OTP
@@ -194,12 +203,21 @@ export class AuthService {
     if (!user) {
       throw new BadRequestException('Invalid OTP');
     }
+
+    if (user.otpExpiration && user.otpExpiration < new Date()) {
+      throw new BadRequestException('OTP has expired');
+    }
+
     return user;
   }
 
   async resetPassword(email: string, otp: string, newPassword: string): Promise<void> {
-    const user = await this.verifyOTP(email, otp);
+    if (!otp) {
+      throw new BadRequestException('Mã OTP không hợp lệ.');
+    }
 
+    const user = await this.verifyOTP(email, otp);
+    
     // Thực hiện logic đặt lại mật khẩu ở đây
     const salt = randomBytes(8).toString('hex');
     const hash = (await scrypt(newPassword, salt, 32)) as Buffer;
@@ -208,6 +226,7 @@ export class AuthService {
     // Lưu lại mật khẩu mới
     user.password = hashedPassword;
     user.resetToken = null; // Xóa OTP sau khi đã sử dụng
+    user.otpExpiration = null; // Reset thời gian hết hạn
     await this.userRepository.save(user);
   }
   

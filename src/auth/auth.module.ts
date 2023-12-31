@@ -18,7 +18,7 @@ import { SessionSerializer } from "./session/session.serializer";
     PassportModule.register({ session: true }),
     JwtModule.register({
         secret: secretKey,
-        signOptions: {expiresIn: '1h'}
+        signOptions: {expiresIn: '5m'}
       })
   ],
   controllers: [AuthController],

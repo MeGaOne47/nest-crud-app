@@ -7,9 +7,11 @@ import { DonorService } from './donor.service';
 import { Donor } from './donor.entity';
 import { User } from 'src/users/user.entity';
 import { DonationHistory } from 'src/Donation History/donation-history.entity';
+import { Donation } from 'src/donation/donation.entity';
+import { Room } from 'src/room/room.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Donor, User, DonationHistory])],
+  imports: [TypeOrmModule.forFeature([Donor, User, DonationHistory, Donation, Room])],
   controllers: [DonorController],
   providers: [DonorService],
 })

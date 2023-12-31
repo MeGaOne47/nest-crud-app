@@ -2,6 +2,7 @@
 import { Appointment } from 'src/Appointment/appointment.entity';
 import { Connection } from 'src/Connection/connection.entity';
 import { DonationHistory } from 'src/Donation History/donation-history.entity';
+import { Donation } from 'src/donation/donation.entity';
 import { User } from 'src/users/user.entity';
 import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToMany, ManyToOne } from 'typeorm';
 
@@ -43,5 +44,8 @@ export class Donor {
 
   @OneToMany(() => Connection, connection => connection.donor)
   connections: Connection[];
+
+  @OneToMany(() => Donation, donation => donation.donor)
+  donations: Donation[];
   
 }

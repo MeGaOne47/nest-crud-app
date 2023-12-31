@@ -11,8 +11,9 @@ import { Role } from "src/role/enum/role.enum";
 import { RolesGuard } from "./guard/role.guard";
 import { RegisterUserDto } from "src/users/dto/register-user.dto";
 import { LogoutDto } from "src/users/dto/loguot-user.dto";
+import { ApiTags } from "@nestjs/swagger";
 
-
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {
@@ -33,8 +34,9 @@ export class AuthController {
   }
 
   // ..../auth/profile
+  @Roles(Role.Admin, Role.User)
   @Get('profile')
-  @UseGuards(JwtGuard)
+  @UseGuards(JwtGuard, RolesGuard)
   profile(@Request() req) {
     return req.user;
   }
@@ -65,7 +67,6 @@ export class AuthController {
 
   @UseGuards(JwtGuard)
   @Post('logout')
-  // @HttpCode(204)
   async logout(@Req() req, @Body() logoutDto: LogoutDto): Promise<{ message: string }> {
     const userId = req.user.id;
     await this.authService.logout(userId, logoutDto.refreshToken);
