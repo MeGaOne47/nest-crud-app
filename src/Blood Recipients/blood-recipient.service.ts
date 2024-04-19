@@ -16,23 +16,16 @@ export class BloodRecipientService {
     return await this.bloodRecipientRepository.save(bloodRecipient);
   }
 
-  // async findAll(urgent?: string): Promise<BloodRecipient[]> {
-  //   const queryBuilder: SelectQueryBuilder<BloodRecipient> = this.bloodRecipientRepository.createQueryBuilder('bloodRecipient');
+//   async findAll(urgent?: string): Promise<BloodRecipient[]> {
+//     const queryBuilder: SelectQueryBuilder<BloodRecipient> = this.bloodRecipientRepository.createQueryBuilder('bloodRecipient');
 
-  //   if (urgent !== undefined) {
-  //     queryBuilder.andWhere('bloodRecipient.urgent = :urgent', { urgent });
-  //   }
+//     if (urgent !== undefined) {
+//       queryBuilder.andWhere('bloodRecipient.urgent = :urgent', { urgent });
+//     }
 
-  //   return await queryBuilder.getMany();
-  // }
+//     return await queryBuilder.getMany();
+//   }
 
-  async findAll(page: number = 1, pageSize: number = 10): Promise<BloodRecipient[]> {
-    const skip = (page - 1) * pageSize;
-    return this.bloodRecipientRepository.find({
-      skip,
-      take: pageSize,
-    });
-  }
 
   async findOne(id: number, urgent?: string): Promise<BloodRecipient> {
     const queryBuilder: SelectQueryBuilder<BloodRecipient> = this.bloodRecipientRepository.createQueryBuilder('bloodRecipient');

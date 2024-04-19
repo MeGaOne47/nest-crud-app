@@ -80,7 +80,7 @@ export class AuthService {
           console.log(`Số lần nhập sai cho tài khoản ${user.email}: ${updatedUser.loginAttempts}`);
   
           // Kiểm tra xem số lần nhập sai có vượt quá ngưỡng không
-          if (updatedUser.loginAttempts >= 3) {
+          if (updatedUser.loginAttempts >= 10) {
             // Nếu vượt quá ngưỡng, khóa tài khoản
             await this.userRepository.update({ id: user.id }, { isLocked: true });
             throw new UnauthorizedException('Tài khoản đã bị khóa.');
