@@ -16,17 +16,6 @@ export class BloodRecipientService {
     return await this.bloodRecipientRepository.save(bloodRecipient);
   }
 
-//   async findAll(urgent?: string): Promise<BloodRecipient[]> {
-//     const queryBuilder: SelectQueryBuilder<BloodRecipient> = this.bloodRecipientRepository.createQueryBuilder('bloodRecipient');
-
-//     if (urgent !== undefined) {
-//       queryBuilder.andWhere('bloodRecipient.urgent = :urgent', { urgent });
-//     }
-
-//     return await queryBuilder.getMany();
-//   }
-
-
   async findOne(id: number, urgent?: string): Promise<BloodRecipient> {
     const queryBuilder: SelectQueryBuilder<BloodRecipient> = this.bloodRecipientRepository.createQueryBuilder('bloodRecipient');
 

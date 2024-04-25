@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
 import { Appointment } from 'src/Appointment/appointment.entity';
-import { Connection } from 'src/Connection/connection.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 @Entity('blood_recipients')
@@ -31,9 +30,6 @@ export class BloodRecipient {
 
   @Column()
   requiredAmount: number;
-
-  @OneToMany(() => Connection, connection => connection.bloodRecipient)
-  connections: Connection[];
 
   @OneToMany(() => Appointment, appointment => appointment.donor)
   appointments: Appointment[];

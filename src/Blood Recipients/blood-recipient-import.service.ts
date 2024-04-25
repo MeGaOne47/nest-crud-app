@@ -29,7 +29,6 @@ export class BloodRecipientImportService {
             rhFactor: row.getCell(7).text,
             requiredAmount: parseFloat(row.getCell(8).text),
             id: 0,
-            connections: [],
             appointments: [],
             urgent: row.getCell(9).text,
         };

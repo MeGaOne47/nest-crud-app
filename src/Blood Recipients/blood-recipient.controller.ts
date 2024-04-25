@@ -20,22 +20,6 @@ export class BloodRecipientController {
     private readonly bloodRecipientImportService: BloodRecipientImportService,
   ) {}
 
-  // @Get()
-  // findAll(): Promise<BloodRecipient[]> {
-  //   return this.bloodRecipientService.findAll();
-  // }
-
-//   @Get()
-//   // @Roles(Role.Admin)
-//   // @UseGuards(JwtGuard, RolesGuard)
-//   findAll(
-//     @Query('page', ParseIntPipe) page: number = 1,
-//     @Query('pageSize', ParseIntPipe) pageSize: number = 10,
-//   ): Promise<BloodRecipient[]> {
-//     return this.bloodRecipientService.findAll(page, pageSize);
-//   }
-
-
   @Get(':id')
   // @Roles(Role.Admin)
   // @UseGuards(LocalGuard, RolesGuard)

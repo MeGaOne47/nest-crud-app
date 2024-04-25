@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-// donor.controller.ts
 import { Controller, Get, Post, Put, Delete, Param, Body, UseGuards, Req, ParseIntPipe } from '@nestjs/common';
 import { DonorService } from './donor.service';
 import { Donor } from './donor.entity';
@@ -10,13 +9,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/auth/decorator/roles.decorator';
 import { Role } from 'src/role/enum/role.enum';
 import { RolesGuard } from 'src/auth/guard/role.guard';
-// import { LocalGuard } from 'src/auth/guard/local.guard';
-// import { Roles } from 'src/auth/decorator/roles.decorator';
-// import { Role } from 'src/role/enum/role.enum';
-// import { RolesGuard } from 'src/auth/guard/role.guard';
 
-// @Roles(Role.Admin, Role.User)
-// @UseGuards(RolesGuard)
 @ApiTags('donors')
 @Controller('donors')
 export class DonorController {

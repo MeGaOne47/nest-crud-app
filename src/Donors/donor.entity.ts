@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
 import { Appointment } from 'src/Appointment/appointment.entity';
-import { Connection } from 'src/Connection/connection.entity';
 import { DonationHistory } from 'src/Donation History/donation-history.entity';
 import { Donation } from 'src/donation/donation.entity';
 import { User } from 'src/users/user.entity';
@@ -41,9 +40,6 @@ export class Donor {
 
   @OneToMany(() => Appointment, appointment => appointment.donor, { cascade: true })
   appointments: Appointment[];
-
-  @OneToMany(() => Connection, connection => connection.donor)
-  connections: Connection[];
 
   @OneToMany(() => Donation, donation => donation.donor)
   donations: Donation[];
