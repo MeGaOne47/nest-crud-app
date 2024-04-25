@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
 
 import { Exclude, Expose, Type } from "class-transformer";
-// import { Role } from "src/role/enum/role.enum";
 import { DisplayUserDto } from "src/users/dto/display-user.dto";
 
 /* eslint-disable prettier/prettier */
@@ -23,16 +22,8 @@ export class DisplayDonorDto {
     bloodType: string;
     @Expose()
     rhFactor: string;
-    // @Expose()
-    // user: {
-    //     id: number;
-    //     email: string;
-    //     username: string;
-    //     roles: Role[];
-    //     // Thêm các trường khác nếu cần
-    //   };
     @Expose()
-    @Type(() => DisplayUserDto) // Transform UserDto
+    @Type(() => DisplayUserDto) 
     user: DisplayUserDto;
   }
   

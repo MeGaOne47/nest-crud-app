@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
-// donation.entity.ts
 import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { Donor } from 'src/Donors/donor.entity';
 import { Room } from 'src/room/room.entity';
+
 
 
 @Entity('donations')
